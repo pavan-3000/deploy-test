@@ -13,21 +13,6 @@ pipeline {
             }
         }
 
-        stage('Setup Tools') {
-            steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                    sh '''
-                        TOOLS_DIR="$HOME/devpilot-tools"
-                        mkdir -p "$TOOLS_DIR/bin"
-
-                        if ! which trivy 2>/dev/null && [ ! -x "$TOOLS_DIR/bin/trivy" ]; then
-                            curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b "$TOOLS_DIR/bin" 2>/dev/null || true
-                        fi
-                    '''
-                }
-            }
-        }
-
         stage('SonarQube Analysis') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
@@ -72,14 +57,12 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     script {
-                        withEnv(["PATH+DEVPILOT=${env.HOME}/devpilot-tools/bin"]) {
-                            def trivyOk = sh(script: 'which trivy 2>/dev/null', returnStatus: true) == 0
-                            if (trivyOk) {
-                                sh "trivy image --exit-code 0 --severity HIGH,CRITICAL --format table ${DOCKER_IMAGE}:${DOCKER_TAG} | tee trivy-report.txt"
-                                archiveArtifacts artifacts: 'trivy-report.txt', allowEmptyArchive: true
-                            } else {
-                                echo 'Trivy not available — skipping scan'
-                            }
+                        def trivyOk = sh(script: 'which trivy 2>/dev/null', returnStatus: true) == 0
+                        if (trivyOk) {
+                            sh "trivy image --exit-code 0 --severity HIGH,CRITICAL --format table ${DOCKER_IMAGE}:${DOCKER_TAG} | tee trivy-report.txt"
+                            archiveArtifacts artifacts: 'trivy-report.txt', allowEmptyArchive: true
+                        } else {
+                            echo 'Trivy not available — skipping scan'
                         }
                     }
                 }
@@ -97,6 +80,26 @@ pipeline {
                                 echo $REG_PASS | docker login -u $REG_USER --password-stdin
                                 docker tag $DOCKER_IMAGE:$DOCKER_TAG pav30/deploy-test:$DOCKER_TAG-$BRANCH_TAG
                                 docker push pav30/deploy-test:$DOCKER_TAG-$BRANCH_TAG
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to VM') {
+            when { expression { return fileExists('Dockerfile') } }
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                    script {
+                        withCredentials([sshUserPrivateKey(credentialsId: 'devpilot-deploy-pavan-3000-deploy-test-main', keyFileVariable: 'SSH_KEY'), usernamePassword(credentialsId: 'devpilot-registry-1780113915287', usernameVariable: 'REG_USER', passwordVariable: 'REG_PASS')]) {
+                            sh '''
+                                BRANCH_TAG=$(echo ${GIT_BRANCH:-${BRANCH_NAME:-main}} | sed 's|origin/||' | tr '/' '-' | tr '[:upper:]' '[:lower:]')
+                                FULL_IMAGE="pav30/deploy-test:$DOCKER_TAG-$BRANCH_TAG"
+                                REG_PASS_B64=$(echo -n "$REG_PASS" | base64 -w0)
+                                ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no -o ConnectTimeout=15 ubuntu@23.20.250.88 "echo $REG_PASS_B64 | base64 -d | docker login -u $REG_USER --password-stdin"
+                                ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no -o ConnectTimeout=30 ubuntu@23.20.250.88 "docker pull $FULL_IMAGE && (docker stop deploy-test 2>/dev/null; docker rm deploy-test 2>/dev/null; docker run -d --name deploy-test --restart unless-stopped -p 80:3000 $FULL_IMAGE) && echo Deploy OK"
+                                echo "Deployed: $FULL_IMAGE → http://23.20.250.88:80"
                             '''
                         }
                     }
