@@ -5,6 +5,9 @@ pipeline {
         DOCKER_IMAGE = "${JOB_NAME.toLowerCase().replaceAll('[^a-z0-9-]', '-')}"
         DOCKER_TAG   = "${BUILD_NUMBER}"
     }
+    dfij 
+
+    dpfdjf
 
     stages {
         stage('Checkout') {
