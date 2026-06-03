@@ -1,5 +1,5 @@
 FROM nginx:alpine AS builder
-
+fufhdiufdf idfdfh 
 COPY index.html /usr/share/nginx/html/index.html
 
 # Nginx will serve the content on port 80
