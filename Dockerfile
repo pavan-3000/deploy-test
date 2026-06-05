@@ -1,5 +1,4 @@
 FROM nginx:alpine AS builder
-iodjfidfddffd
 COPY index.html /usr/share/nginx/html/index.html
 
 EXPOSE 80
