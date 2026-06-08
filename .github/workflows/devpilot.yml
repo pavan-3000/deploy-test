@@ -20,7 +20,7 @@ jobs:
           fi
 
       - name: Trivy Security Scan
-        uses: aquasecurity/trivy-action@v0.9.1
+        uses: aquasecurity/trivy-action@master
         continue-on-error: true
         with:
           image-ref: devpilot-app:latest
@@ -29,21 +29,9 @@ jobs:
 
       - name: Push to Registry
         run: |
-          # Secrets must be set in GitHub repo Settings → Secrets 
           echo "${{ secrets.DEVPILOT_REGISTRY_PASS }}" | docker login -u "${{ secrets.DEVPILOT_REGISTRY_USER }}" --password-stdin
           docker tag devpilot-app:latest pav30/deploy-test:${{ github.run_number }}
           docker push pav30/deploy-test:${{ github.run_number }}
-      - name: Deploy to VM
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.DEVPILOT_DEPLOY_HOST }}
-          username: ${{ secrets.DEVPILOT_DEPLOY_USER }}
-          key: ${{ secrets.DEVPILOT_DEPLOY_KEY }}
-          script: |
-            docker pull pav30/deploy-test:${{ github.run_number }}
-            docker stop deploy-test || true
-            docker rm deploy-test || true
-            docker run -d --name deploy-test --restart unless-stopped -p 80:80 pav30/deploy-test:${{ github.run_number }}
       - name: AI Analysis
         continue-on-error: true
         env:
