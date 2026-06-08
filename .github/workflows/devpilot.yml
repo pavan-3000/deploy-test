@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Docker Build
         run: |
@@ -20,7 +20,7 @@ jobs:
           fi
 
       - name: Trivy Security Scan
-        uses: aquasecurity/trivy-action@v0.32.0
+        uses: aquasecurity/trivy-action@v0.64.1
         continue-on-error: true
         with:
           image-ref: devpilot-app:latest
@@ -34,7 +34,7 @@ jobs:
           docker tag devpilot-app:latest pav30/deploy-test:${{ github.run_number }}
           docker push pav30/deploy-test:${{ github.run_number }}
       - name: Deploy to VM
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v2
         with:
           host: ${{ secrets.DEVPILOT_DEPLOY_HOST }}
           username: ${{ secrets.DEVPILOT_DEPLOY_USER }}
