@@ -1,11 +1,4 @@
-FROM alpine:latest AS build
-WORKDIR /app
-COPY index.html /app/
-
-FROM alpine:latest
-WORKDIR /app
-COPY --from=build /app /app
-RUN adduser -S appuser && chown -R appuser /app
-USER appuser
+FROM nginx:alpine
+COPY index.html /usr/share/nginx/html/index.html
 EXPOSE 80
-CMD ["http.server", "-d", "/app", "80"]
+CMD ["nginx", "-g", "daemon off;"]
