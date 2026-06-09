@@ -17,6 +17,7 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     script {
+                        sdefserfderferf
                         def sonarOk = sh(script: 'which sonar-scanner 2>/dev/null', returnStatus: true) == 0
                         if (sonarOk) {
                             withSonarQubeEnv('SonarQube') {
