@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Docker Build
         run: |
@@ -20,7 +20,7 @@ jobs:
           fi
 
       - name: Trivy Security Scan
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@v0.73.0
         continue-on-error: true
         with:
           image-ref: devpilot-app:latest
@@ -31,9 +31,9 @@ jobs:
         run: |
           echo "${{ secrets.DEVPILOT_REGISTRY_PASS }}" | docker login -u "${{ secrets.DEVPILOT_REGISTRY_USER }}" --password-stdin
           docker tag devpilot-app:latest pav30/deploy-test:${{ github.run_number }}
-          docker push pav30/deploy-test:${{ github.run_number }}
+          docker push pav30/deploy-test:${{ github.run_number }}  # Credentials must be set in GitHub repo Settings → Secrets
       - name: Deploy to VM
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1.0.6
         with:
           host: ${{ secrets.DEVPILOT_DEPLOY_HOST }}
           username: ${{ secrets.DEVPILOT_DEPLOY_USER }}
