@@ -1,46 +1,887 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title> Hello World — DevPilot Test</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #0d1117;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      color: #e6edf3;
-    }
-    .card {
-      text-align: center;
-      padding: 48px 64px;
-      border: 1px solid #30363d;
-      border-radius: 12px;
-      background: #161b22;
-    }
-    h1 { font-size: 48px; font-weight: 700; color: #3fb950; margin-bottom: 12px; }
-    p  { font-size: 16px; color: #8b949e; }
-    .badge {
-      display: inline-block;
-      margin-top: 24px;
-      padding: 6px 14px;
-      background: #1f6feb22;
-      border: 1px solid #1f6feb66;
-      border-radius: 20px;
-      font-size: 12px;
-      color: #58a6ff;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClashVault — Buy & Sell CoC Accounts</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold:    #D4A017;
+    --gold-lt: #F5C842;
+    --ember:   #C0392B;
+    --ember-lt:#E74C3C;
+    --stone:   #1A1208;
+    --dark:    #0E0C07;
+    --panel:   #1E1A10;
+    --panel2:  #2A2416;
+    --muted:   #7A6E50;
+    --text:    #EDE3C8;
+    --text-dim:#A89870;
+    --green:   #27AE60;
+    --blue:    #2980B9;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(14,12,7,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(212,160,23,0.25);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.15rem;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    text-shadow: 0 0 20px rgba(212,160,23,0.4);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--ember-lt); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a {
+    color: var(--text-dim); text-decoration: none;
+    font-family: 'Rajdhani', sans-serif; font-weight: 600;
+    font-size: 0.9rem; letter-spacing: 0.06em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .btn-nav {
+    background: var(--gold); color: var(--dark) !important;
+    padding: 7px 18px; border-radius: 4px;
+    font-family: 'Rajdhani', sans-serif; font-weight: 700 !important;
+    font-size: 0.85rem; letter-spacing: 0.08em;
+    transition: background 0.2s !important;
+  }
+  .btn-nav:hover { background: var(--gold-lt) !important; color: var(--dark) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative; overflow: hidden;
+    padding: 90px 32px 80px;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(192,57,43,0.18) 0%, transparent 70%),
+                linear-gradient(180deg, #110E06 0%, var(--dark) 100%);
+    text-align: center;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23D4A017' fill-opacity='.06'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(192,57,43,0.2); border: 1px solid rgba(192,57,43,0.5);
+    color: var(--ember-lt); padding: 4px 14px; border-radius: 20px;
+    font-family: 'Rajdhani', sans-serif; font-weight: 600;
+    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    color: var(--gold-lt);
+    text-shadow: 0 2px 30px rgba(212,160,23,0.35);
+    line-height: 1.15;
+    margin-bottom: 18px;
+  }
+  .hero h1 em { color: var(--ember-lt); font-style: normal; }
+  .hero p {
+    color: var(--text-dim); font-size: 1.05rem;
+    max-width: 540px; margin: 0 auto 36px;
+  }
+  .hero-ctas { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #C0392B, #922B21);
+    color: #fff; padding: 13px 30px; border-radius: 5px; border: none;
+    font-family: 'Rajdhani', sans-serif; font-weight: 700;
+    font-size: 1rem; letter-spacing: 0.07em; text-transform: uppercase;
+    cursor: pointer; text-decoration: none;
+    box-shadow: 0 4px 20px rgba(192,57,43,0.4);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(192,57,43,0.5); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--gold); padding: 12px 28px; border-radius: 5px;
+    border: 1.5px solid var(--gold);
+    font-family: 'Rajdhani', sans-serif; font-weight: 700;
+    font-size: 1rem; letter-spacing: 0.07em; text-transform: uppercase;
+    cursor: pointer; text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-secondary:hover { background: var(--gold); color: var(--dark); }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: var(--panel);
+    border-top: 1px solid rgba(212,160,23,0.12);
+    border-bottom: 1px solid rgba(212,160,23,0.12);
+    display: flex; justify-content: center; gap: 0;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    padding: 22px 40px;
+    text-align: center;
+    border-right: 1px solid rgba(212,160,23,0.1);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.7rem; color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Rajdhani', sans-serif; font-size: 0.75rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); margin-top: 4px;
+  }
+
+  /* ── SECTION ── */
+  section { padding: 70px 32px; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-head { margin-bottom: 40px; }
+  .eyebrow {
+    font-family: 'Rajdhani', sans-serif; font-weight: 600;
+    font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ember-lt); margin-bottom: 10px;
+  }
+  .section-head h2 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    color: var(--gold-lt); line-height: 1.2;
+  }
+  .section-head p { color: var(--text-dim); margin-top: 10px; max-width: 520px; }
+
+  /* ── SEARCH BAR ── */
+  .search-strip {
+    background: var(--panel);
+    padding: 28px 32px;
+    border-top: 1px solid rgba(212,160,23,0.1);
+  }
+  .search-strip-inner { max-width: 1200px; margin: 0 auto; }
+  .search-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+  .search-field { flex: 1; min-width: 200px; }
+  .search-field label {
+    display: block; font-family: 'Rajdhani', sans-serif; font-weight: 600;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 6px;
+  }
+  .search-field input, .search-field select {
+    width: 100%; background: var(--panel2);
+    border: 1px solid rgba(212,160,23,0.2); border-radius: 4px;
+    color: var(--text); padding: 9px 14px;
+    font-family: 'Inter', sans-serif; font-size: 0.9rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  .search-field input:focus, .search-field select:focus {
+    border-color: var(--gold);
+  }
+  .search-field select option { background: var(--panel2); }
+
+  /* ── LISTINGS GRID ── */
+  .listings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 22px;
+  }
+  .listing-card {
+    background: var(--panel);
+    border: 1px solid rgba(212,160,23,0.12);
+    border-radius: 8px; overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+    position: relative;
+  }
+  .listing-card:hover {
+    border-color: rgba(212,160,23,0.45);
+    transform: translateY(-3px);
+  }
+  .card-banner {
+    height: 110px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; position: relative;
+    overflow: hidden;
+  }
+  .banner-th14 { background: linear-gradient(135deg, #1a2a0a, #2d4a10); }
+  .banner-th15 { background: linear-gradient(135deg, #0a1a2a, #10304a); }
+  .banner-th16 { background: linear-gradient(135deg, #1a0a1a, #3a1040); }
+  .banner-th13 { background: linear-gradient(135deg, #1a100a, #3a2010); }
+  .banner-th12 { background: linear-gradient(135deg, #0a1a1a, #103030); }
+
+  .badge-new {
+    position: absolute; top: 8px; right: 8px;
+    background: var(--ember); color: #fff;
+    font-family: 'Rajdhani', sans-serif; font-weight: 700;
+    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 3px;
+  }
+  .badge-hot {
+    position: absolute; top: 8px; right: 8px;
+    background: var(--gold); color: var(--dark);
+    font-family: 'Rajdhani', sans-serif; font-weight: 700;
+    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 3px;
+  }
+
+  .card-body { padding: 16px 18px; }
+  .card-title {
+    font-family: 'Rajdhani', sans-serif; font-weight: 700;
+    font-size: 1.05rem; color: var(--gold-lt); margin-bottom: 6px;
+  }
+  .card-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6px; margin-bottom: 14px;
+  }
+  .cs {
+    font-size: 0.78rem; color: var(--text-dim);
+  }
+  .cs span {
+    display: block; color: var(--text);
+    font-family: 'Rajdhani', sans-serif; font-weight: 600;
+    font-size: 0.92rem;
+  }
+  .card-price {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .price {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.2rem; color: var(--gold);
+  }
+  .price-sub { font-family: 'Inter', sans-serif; font-size: 0.7rem; color: var(--muted); margin-top: 1px; }
+  .btn-buy {
+    background: var(--ember); color: #fff;
+    border: none; padding: 8px 16px; border-radius: 4px;
+    font-family: 'Rajdhani', sans-serif; font-weight: 700;
+    font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .btn-buy:hover { background: var(--ember-lt); }
+
+  /* ── SELL SECTION ── */
+  .sell-section { background: var(--panel); border-top: 1px solid rgba(212,160,23,0.1); }
+  .sell-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .sell-form { background: var(--panel2); padding: 32px; border-radius: 8px; border: 1px solid rgba(212,160,23,0.12); }
+  .sell-form h3 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.1rem; color: var(--gold-lt); margin-bottom: 24px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label {
+    display: block; font-family: 'Rajdhani', sans-serif; font-weight: 600;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 6px;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; background: var(--panel);
+    border: 1px solid rgba(212,160,23,0.2); border-radius: 4px;
+    color: var(--text); padding: 10px 14px;
+    font-family: 'Inter', sans-serif; font-size: 0.9rem;
+    outline: none; transition: border-color 0.2s; resize: vertical;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--gold);
+  }
+  .form-group select option { background: var(--panel); }
+  .btn-submit {
+    width: 100%; background: linear-gradient(135deg, var(--gold), #b8860b);
+    color: var(--dark); border: none; padding: 14px;
+    border-radius: 5px; font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 1rem; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(212,160,23,0.3);
+    transition: opacity 0.2s, transform 0.15s;
+    margin-top: 6px;
+  }
+  .btn-submit:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  .sell-info h3 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.4rem; color: var(--gold-lt); margin-bottom: 20px;
+  }
+  .sell-info p { color: var(--text-dim); margin-bottom: 28px; line-height: 1.7; }
+  .perk-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+  .perk-list li {
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .perk-icon {
+    width: 38px; height: 38px; flex-shrink: 0;
+    background: rgba(212,160,23,0.1); border: 1px solid rgba(212,160,23,0.2);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+  .perk-text strong {
+    display: block; font-family: 'Rajdhani', sans-serif; font-weight: 700;
+    color: var(--text); font-size: 0.95rem; margin-bottom: 2px;
+  }
+  .perk-text span { color: var(--text-dim); font-size: 0.85rem; }
+
+  /* ── HOW IT WORKS ── */
+  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .how-card {
+    background: var(--panel); border: 1px solid rgba(212,160,23,0.1);
+    border-radius: 8px; padding: 30px 24px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .how-card::before {
+    content: attr(data-step);
+    position: absolute; top: -16px; right: 16px;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 5rem; color: rgba(212,160,23,0.05);
+    line-height: 1; pointer-events: none;
+  }
+  .how-icon { font-size: 2.2rem; margin-bottom: 14px; }
+  .how-card h4 {
+    font-family: 'Rajdhani', sans-serif; font-weight: 700;
+    font-size: 1.05rem; color: var(--gold-lt); margin-bottom: 8px;
+  }
+  .how-card p { color: var(--text-dim); font-size: 0.88rem; }
+
+  /* ── TRUST BADGES ── */
+  .trust-row {
+    display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+    padding: 36px 32px;
+    background: linear-gradient(180deg, var(--dark), #110E06);
+    border-top: 1px solid rgba(212,160,23,0.1);
+  }
+  .trust-badge {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--panel); border: 1px solid rgba(212,160,23,0.12);
+    border-radius: 6px; padding: 10px 18px;
+  }
+  .trust-badge span:first-child { font-size: 1.2rem; }
+  .trust-badge span:last-child {
+    font-family: 'Rajdhani', sans-serif; font-weight: 600;
+    font-size: 0.82rem; letter-spacing: 0.05em;
+    color: var(--text-dim);
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--panel2); border: 1px solid rgba(212,160,23,0.3);
+    border-radius: 10px; max-width: 480px; width: 90%; padding: 36px;
+    position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 14px; right: 18px;
+    background: none; border: none; color: var(--muted);
+    font-size: 1.4rem; cursor: pointer;
+  }
+  .modal h3 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.15rem; color: var(--gold-lt); margin-bottom: 8px;
+  }
+  .modal p { color: var(--text-dim); font-size: 0.88rem; margin-bottom: 22px; }
+  .modal-stat-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-bottom: 22px;
+  }
+  .modal-stat {
+    background: var(--panel); border-radius: 5px; padding: 12px;
+  }
+  .modal-stat .ms-label {
+    font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase;
+    font-family: 'Rajdhani', sans-serif; font-weight: 600;
+  }
+  .modal-stat .ms-val {
+    font-family: 'Rajdhani', sans-serif; font-weight: 700;
+    font-size: 1.05rem; color: var(--text); margin-top: 2px;
+  }
+  .modal-price-row {
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(212,160,23,0.15); padding-top: 18px; margin-top: 4px;
+  }
+  .modal-price { font-family: 'Cinzel Decorative', serif; font-size: 1.5rem; color: var(--gold); }
+  .modal-price sub { font-size: 0.7rem; color: var(--muted); font-family: 'Inter', sans-serif; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--stone); border-top: 1px solid rgba(212,160,23,0.12);
+    padding: 40px 32px 28px;
+  }
+  .footer-inner { max-width: 1200px; margin: 0 auto; }
+  .footer-top { display: flex; gap: 48px; flex-wrap: wrap; margin-bottom: 36px; }
+  .footer-brand { flex: 2; min-width: 220px; }
+  .footer-brand .nav-logo { font-size: 1rem; display: inline-block; margin-bottom: 12px; }
+  .footer-brand p { color: var(--muted); font-size: 0.85rem; max-width: 280px; }
+  .footer-col { flex: 1; min-width: 140px; }
+  .footer-col h5 {
+    font-family: 'Rajdhani', sans-serif; font-weight: 700;
+    font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 14px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .footer-col ul li a {
+    color: var(--muted); text-decoration: none; font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+  .footer-col ul li a:hover { color: var(--gold); }
+  .footer-bottom {
+    border-top: 1px solid rgba(212,160,23,0.08);
+    padding-top: 20px; text-align: center;
+    color: var(--muted); font-size: 0.78rem;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+    background: var(--green); color: #fff;
+    padding: 12px 22px; border-radius: 6px;
+    font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 0.9rem;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.3);
+    transform: translateY(80px); opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 18px; }
+    .nav-links { gap: 16px; }
+    .nav-links a:not(.btn-nav) { display: none; }
+    .hero { padding: 60px 18px; }
+    .sell-grid { grid-template-columns: 1fr; }
+    .how-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    section { padding: 50px 18px; }
+    .stat-item { padding: 16px 22px; }
+    .sell-info { order: -1; }
+  }
+</style>
 </head>
 <body>
-  <div class="card">
-    <h1>Hello World amith how are you</h1>
-    <p>Deployed automatically by DevPilot</p>
-    <div class="badge">GitHub → fdvfvfv Jenkins → Docker Hub → EC2</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Clash<span>Vault</span></a>
+  <div class="nav-links">
+    <a href="#listings">Browse</a>
+    <a href="#sell">Sell</a>
+    <a href="#how">How It Works</a>
+    <a href="#listings" class="btn-nav">Buy Now</a>
   </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚔️ Clash of Clans Marketplace</div>
+  <h1>Trade <em>Elite</em><br>CoC Accounts</h1>
+  <p>The safest marketplace to buy and sell verified Clash of Clans accounts — from TH10 to maxed TH16.</p>
+  <div class="hero-ctas">
+    <a href="#listings" class="btn-primary">Browse Accounts</a>
+    <a href="#sell" class="btn-secondary">Sell My Account</a>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">4,820</div>
+    <div class="stat-label">Accounts Sold</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">1,390</div>
+    <div class="stat-label">Active Listings</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">99.1%</div>
+    <div class="stat-label">Safe Transfers</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">24/7</div>
+    <div class="stat-label">Support</div>
+  </div>
+</div>
+
+<!-- SEARCH STRIP -->
+<div class="search-strip" id="listings">
+  <div class="search-strip-inner">
+    <div class="search-row">
+      <div class="search-field">
+        <label>Search</label>
+        <input type="text" id="searchInput" placeholder="e.g. max TH16, Legend League…" oninput="filterCards()">
+      </div>
+      <div class="search-field">
+        <label>Town Hall</label>
+        <select id="filterTH" onchange="filterCards()">
+          <option value="">All Levels</option>
+          <option>TH16</option>
+          <option>TH15</option>
+          <option>TH14</option>
+          <option>TH13</option>
+          <option>TH12</option>
+        </select>
+      </div>
+      <div class="search-field">
+        <label>Max Price</label>
+        <select id="filterPrice" onchange="filterCards()">
+          <option value="">Any Price</option>
+          <option value="50">Under $50</option>
+          <option value="100">Under $100</option>
+          <option value="200">Under $200</option>
+          <option value="500">Under $500</option>
+        </select>
+      </div>
+      <div class="search-field">
+        <label>Sort By</label>
+        <select id="sortBy" onchange="filterCards()">
+          <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+          <option value="th-desc">TH: Highest First</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LISTINGS -->
+<section>
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="eyebrow">Available Now</div>
+      <h2>Featured Accounts</h2>
+      <p>All accounts are verified before listing. Instant delivery after payment confirmation.</p>
+    </div>
+    <div class="listings-grid" id="listingsGrid"></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" style="background: var(--panel); border-top:1px solid rgba(212,160,23,0.1);">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="eyebrow">Simple Process</div>
+      <h2>How It Works</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-card" data-step="1">
+        <div class="how-icon">🔍</div>
+        <h4>Browse & Pick</h4>
+        <p>Filter by Town Hall level, trophies, hero levels, or price. Every listing includes full stats.</p>
+      </div>
+      <div class="how-card" data-step="2">
+        <div class="how-icon">💳</div>
+        <h4>Pay Securely</h4>
+        <p>Funds are held in escrow until you confirm the account is exactly as described. Multiple payment options.</p>
+      </div>
+      <div class="how-card" data-step="3">
+        <div class="how-icon">🏆</div>
+        <h4>Get Your Account</h4>
+        <p>Login credentials delivered instantly. Our team assists with secure transfer and full account ownership.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SELL SECTION -->
+<section id="sell" class="sell-section">
+  <div class="section-inner">
+    <div class="sell-grid">
+      <div class="sell-info">
+        <div class="eyebrow" style="color:var(--ember-lt)">Turn Your Account Into Cash</div>
+        <h3>Sell Your<br>Clash Account</h3>
+        <p>List for free in under 2 minutes. Our team verifies your account details and promotes your listing to thousands of active buyers.</p>
+        <ul class="perk-list">
+          <li>
+            <div class="perk-icon">🛡️</div>
+            <div class="perk-text">
+              <strong>Seller Protection</strong>
+              <span>Funds released only after successful transfer — you're never at risk.</span>
+            </div>
+          </li>
+          <li>
+            <div class="perk-icon">⚡</div>
+            <div class="perk-text">
+              <strong>Fast Payout</strong>
+              <span>Receive payment within 24 hours of confirmed delivery via PayPal, crypto, or bank transfer.</span>
+            </div>
+          </li>
+          <li>
+            <div class="perk-icon">📢</div>
+            <div class="perk-text">
+              <strong>Free Listing Boost</strong>
+              <span>New listings are featured on our homepage for 48 hours automatically.</span>
+            </div>
+          </li>
+          <li>
+            <div class="perk-icon">💬</div>
+            <div class="perk-text">
+              <strong>Dedicated Support</strong>
+              <span>A real agent walks you through the transfer process step by step.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sell-form">
+        <h3>Create a Listing</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" placeholder="ClashKing99">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="you@email.com">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Town Hall Level</label>
+            <select>
+              <option>TH16</option>
+              <option>TH15</option>
+              <option>TH14</option>
+              <option>TH13</option>
+              <option>TH12</option>
+              <option>TH11</option>
+              <option>TH10</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Asking Price ($)</label>
+            <input type="number" placeholder="e.g. 150">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Barbarian King Level</label>
+            <input type="number" placeholder="e.g. 90">
+          </div>
+          <div class="form-group">
+            <label>Archer Queen Level</label>
+            <input type="number" placeholder="e.g. 90">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Trophies</label>
+            <input type="number" placeholder="e.g. 5200">
+          </div>
+          <div class="form-group">
+            <label>Max Heroes Maxed?</label>
+            <select>
+              <option>Fully Maxed</option>
+              <option>Partially Maxed</option>
+              <option>Not Maxed</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Additional Details</label>
+          <textarea rows="3" placeholder="Legend League, max walls, Clan Capital progress, skins…"></textarea>
+        </div>
+        <button class="btn-submit" onclick="submitListing()">📤 Submit Listing</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BADGES -->
+<div class="trust-row">
+  <div class="trust-badge"><span>🔒</span><span>SSL Encrypted Payments</span></div>
+  <div class="trust-badge"><span>✅</span><span>Verified Listings Only</span></div>
+  <div class="trust-badge"><span>🕐</span><span>24/7 Live Support</span></div>
+  <div class="trust-badge"><span>↩️</span><span>Money-Back Guarantee</span></div>
+  <div class="trust-badge"><span>⚡</span><span>Instant Delivery</span></div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="nav-logo" href="#">Clash<span style="color:var(--ember-lt)">Vault</span></a>
+        <p>The most trusted marketplace for Clash of Clans accounts since 2021. Trade safely, trade smart.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Marketplace</h5>
+        <ul>
+          <li><a href="#">Browse All</a></li>
+          <li><a href="#">TH16 Accounts</a></li>
+          <li><a href="#">TH15 Accounts</a></li>
+          <li><a href="#">Legend League</a></li>
+          <li><a href="#">Maxed Accounts</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Sellers</h5>
+        <ul>
+          <li><a href="#">Create Listing</a></li>
+          <li><a href="#">Seller Guide</a></li>
+          <li><a href="#">Pricing Tips</a></li>
+          <li><a href="#">Payout Options</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Support</h5>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Live Chat</a></li>
+          <li><a href="#">Dispute Resolution</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 ClashVault. Not affiliated with Supercell. All trademarks belong to their respective owners.
+    </div>
+  </div>
+</footer>
+
+<!-- BUY MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3 id="m-title">Account Details</h3>
+    <p id="m-desc">Verified listing — all stats confirmed by ClashVault team.</p>
+    <div class="modal-stat-row" id="m-stats"></div>
+    <div class="modal-price-row">
+      <div>
+        <div class="modal-price" id="m-price">$0</div>
+        <sub>Includes buyer protection + instant delivery</sub>
+      </div>
+      <button class="btn-primary" onclick="confirmBuy()">Confirm Purchase</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const LISTINGS = [
+  { id:1, th:'TH16', name:'Maxed TH16 Legend', price:420, trophies:'6,200', bk:90, aq:90, rc:40, ww:45, walls:'Max', gems:1200, badge:'hot', emoji:'🔥', banner:'banner-th16' },
+  { id:2, th:'TH15', name:'TH15 Champs II', price:185, trophies:'4,800', bk:80, aq:80, rc:35, ww:35, walls:'Max', gems:450, badge:'new', emoji:'⚡', banner:'banner-th15' },
+  { id:3, th:'TH14', name:'TH14 Legend Ready', price:95, trophies:'5,100', bk:75, aq:75, rc:0, ww:0, walls:'Max', gems:220, badge:'', emoji:'🏆', banner:'banner-th14' },
+  { id:4, th:'TH16', name:'TH16 Semi-Max', price:290, trophies:'5,600', bk:85, aq:85, rc:38, ww:40, walls:'L14', gems:800, badge:'', emoji:'💎', banner:'banner-th16' },
+  { id:5, th:'TH13', name:'TH13 Builder Max', price:65, trophies:'3,900', bk:65, aq:65, rc:0, ww:0, walls:'Max', gems:100, badge:'new', emoji:'🛡️', banner:'banner-th13' },
+  { id:6, th:'TH15', name:'TH15 Max Heroes', price:240, trophies:'5,300', bk:90, aq:90, rc:40, ww:0, walls:'L14', gems:650, badge:'hot', emoji:'⚔️', banner:'banner-th15' },
+  { id:7, th:'TH12', name:'TH12 Starter Pack', price:38, trophies:'2,800', bk:50, aq:50, rc:0, ww:0, walls:'Max', gems:80, badge:'new', emoji:'🗡️', banner:'banner-th12' },
+  { id:8, th:'TH14', name:'TH14 Near-Max', price:130, trophies:'4,600', bk:78, aq:78, rc:0, ww:0, walls:'Max', gems:310, badge:'', emoji:'🌟', banner:'banner-th14' },
+];
+
+let currentListingId = null;
+
+function renderCards(data) {
+  const grid = document.getElementById('listingsGrid');
+  grid.innerHTML = data.length ? '' : '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px 0">No listings match your filters.</p>';
+  data.forEach(l => {
+    const card = document.createElement('div');
+    card.className = 'listing-card';
+    card.dataset.th = l.th;
+    card.dataset.price = l.price;
+    card.innerHTML = `
+      <div class="card-banner ${l.banner}">${l.emoji}
+        ${l.badge === 'hot' ? '<div class="badge-hot">🔥 HOT</div>' : ''}
+        ${l.badge === 'new' ? '<div class="badge-new">NEW</div>' : ''}
+      </div>
+      <div class="card-body">
+        <div class="card-title">${l.name}</div>
+        <div class="card-stats">
+          <div class="cs">Town Hall <span>${l.th}</span></div>
+          <div class="cs">Trophies <span>${l.trophies}</span></div>
+          <div class="cs">BK / AQ <span>${l.bk} / ${l.aq}</span></div>
+          <div class="cs">Walls <span>${l.walls}</span></div>
+        </div>
+        <div class="card-price">
+          <div>
+            <div class="price">$${l.price}</div>
+            <div class="price-sub">Instant delivery</div>
+          </div>
+          <button class="btn-buy" onclick="openModal(${l.id})">Buy Now</button>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function filterCards() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const th = document.getElementById('filterTH').value;
+  const maxP = parseInt(document.getElementById('filterPrice').value) || Infinity;
+  const sort = document.getElementById('sortBy').value;
+
+  let data = LISTINGS.filter(l => {
+    const matchQ = !q || l.name.toLowerCase().includes(q) || l.th.toLowerCase().includes(q);
+    const matchTH = !th || l.th === th;
+    const matchP = l.price <= maxP;
+    return matchQ && matchTH && matchP;
+  });
+
+  if (sort === 'price-asc') data.sort((a,b) => a.price - b.price);
+  else if (sort === 'price-desc') data.sort((a,b) => b.price - a.price);
+  else if (sort === 'th-desc') data.sort((a,b) => parseInt(b.th.slice(2)) - parseInt(a.th.slice(2)));
+
+  renderCards(data);
+}
+
+function openModal(id) {
+  const l = LISTINGS.find(x => x.id === id);
+  if (!l) return;
+  currentListingId = id;
+  document.getElementById('m-title').textContent = l.name;
+  document.getElementById('m-price').textContent = '$' + l.price;
+  document.getElementById('m-stats').innerHTML = `
+    <div class="modal-stat"><div class="ms-label">Town Hall</div><div class="ms-val">${l.th}</div></div>
+    <div class="modal-stat"><div class="ms-label">Trophies</div><div class="ms-val">${l.trophies}</div></div>
+    <div class="modal-stat"><div class="ms-label">Barbarian King</div><div class="ms-val">Lv ${l.bk}</div></div>
+    <div class="modal-stat"><div class="ms-label">Archer Queen</div><div class="ms-val">Lv ${l.aq}</div></div>
+    <div class="modal-stat"><div class="ms-label">Walls</div><div class="ms-val">${l.walls}</div></div>
+    <div class="modal-stat"><div class="ms-label">Gems</div><div class="ms-val">${l.gems}</div></div>
+  `;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  currentListingId = null;
+}
+
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+
+function confirmBuy() {
+  closeModal();
+  showToast('✅ Order placed! Check your email for delivery details.');
+}
+
+function submitListing() {
+  showToast('🎉 Listing submitted! We\'ll review and go live within 2 hours.');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// Initial render
+filterCards();
+</script>
 </body>
 </html>
