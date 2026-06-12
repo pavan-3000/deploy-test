@@ -90,6 +90,7 @@ pipeline {
         stage('Deploy to VM') {
             steps {
                 // Deployment logic (if required) goes here.
+                echo 'Deploying to VM...'
             }
         }
 
