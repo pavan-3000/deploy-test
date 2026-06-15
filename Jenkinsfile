@@ -13,23 +13,6 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                    script {
-                        def sonarOk = sh(script: 'which sonar-scanner 2>/dev/null', returnStatus: true) == 0
-                        if (sonarOk) {
-                            withSonarQubeEnv('SonarQube') {
-                                sh 'sonar-scanner -Dsonar.projectKey=${env.JOB_NAME} -Dsonar.sources=. -Dsonar.host.url=${SONAR_HOST_URL}'
-                            }
-                        } else {
-                            echo 'sonar-scanner not found — configure SonarQube Scanner in Jenkins → Manage Jenkins → Tools'
-                        }
-                    }
-                }
-            }
-        }
-
         stage('Docker Build') {
             when { expression { return fileExists('Dockerfile') } }
             steps {
@@ -57,12 +40,14 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     script {
-                        def trivyOk = sh(script: 'which trivy 2>/dev/null', returnStatus: true) == 0
-                        if (trivyOk) {
-                            sh "trivy image --exit-code 0 --severity HIGH,CRITICAL --format table ${DOCKER_IMAGE}:${DOCKER_TAG} | tee trivy-report.txt"
-                            archiveArtifacts artifacts: 'trivy-report.txt', allowEmptyArchive: true
-                        } else {
-                            echo 'Trivy not available — skipping scan'
+                        withEnv(["PATH+DEVPILOT=${env.HOME}/devpilot-tools/bin"]) {
+                            def trivyOk = sh(script: 'which trivy 2>/dev/null', returnStatus: true) == 0
+                            if (trivyOk) {
+                                sh "trivy image --exit-code 0 --severity HIGH,CRITICAL --format table ${DOCKER_IMAGE}:${DOCKER_TAG} | tee trivy-report.txt"
+                                archiveArtifacts artifacts: 'trivy-report.txt', allowEmptyArchive: true
+                            } else {
+                                echo 'Trivy not available — skipping scan'
+                            }
                         }
                     }
                 }
@@ -74,7 +59,7 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     script {
-                        withCredentials([usernamePassword(credentialsId: 'devpilot-registry-1780113915287', usernameVariable: 'REG_USER', passwordVariable: 'REG_PASS')]) {
+                        withCredentials([usernamePassword(credentialsId: 'devpilot-registry-1780989894082', usernameVariable: 'REG_USER', passwordVariable: 'REG_PASS')]) {
                             sh '''
                                 BRANCH_TAG=$(echo ${GIT_BRANCH:-${BRANCH_NAME:-main}} | sed 's|origin/||' | tr '/' '-' | tr '[:upper:]' '[:lower:]')
                                 echo $REG_PASS | docker login -u $REG_USER --password-stdin
@@ -92,14 +77,14 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     script {
-                        withCredentials([sshUserPrivateKey(credentialsId: 'devpilot-deploy-pavan-3000-deploy-test-main', keyFileVariable: 'SSH_KEY'), usernamePassword(credentialsId: 'devpilot-registry-1780113915287', usernameVariable: 'REG_USER', passwordVariable: 'REG_PASS')]) {
+                        withCredentials([sshUserPrivateKey(credentialsId: 'devpilot-deploy-pavan-3000-deploy-test-main', keyFileVariable: 'SSH_KEY'), usernamePassword(credentialsId: 'devpilot-registry-1780989894082', usernameVariable: 'REG_USER', passwordVariable: 'REG_PASS')]) {
                             sh '''
                                 BRANCH_TAG=$(echo ${GIT_BRANCH:-${BRANCH_NAME:-main}} | sed 's|origin/||' | tr '/' '-' | tr '[:upper:]' '[:lower:]')
                                 FULL_IMAGE="pav30/deploy-test:$DOCKER_TAG-$BRANCH_TAG"
                                 REG_PASS_B64=$(echo -n "$REG_PASS" | base64 -w0)
-                                ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no -o ConnectTimeout=15 ubuntu@13.222.127.77 "echo $REG_PASS_B64 | base64 -d | docker login -u $REG_USER --password-stdin"
-                                ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no -o ConnectTimeout=30 ubuntu@13.222.127.77 "docker pull $FULL_IMAGE && (docker stop deploy-test 2>/dev/null; docker rm deploy-test 2>/dev/null; docker run -d --name deploy-test --restart unless-stopped -p 800:80 $FULL_IMAGE) && echo Deploy OK"
-                                echo "Deployed: $FULL_IMAGE → http://13.222.127.77:800"
+                                ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no -o ConnectTimeout=15 ubuntu@107.20.108.35 "echo $REG_PASS_B64 | base64 -d | docker login -u $REG_USER --password-stdin"
+                                ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no -o ConnectTimeout=30 ubuntu@107.20.108.35 "docker pull $FULL_IMAGE && (docker stop deploy-test 2>/dev/null; docker rm deploy-test 2>/dev/null; docker run -d --name deploy-test --restart unless-stopped -p 800:80 $FULL_IMAGE) && echo Deploy OK"
+                                echo "Deployed: $FULL_IMAGE → http://107.20.108.35:800"
                             '''
                         }
                     }
