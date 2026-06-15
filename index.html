@@ -3,545 +3,1112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DropZone — PUBG Account Market</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<title>BATTLEGROUND MARKET — Buy PUBG Accounts</title>
 <style>
-:root{
-  --sand:   #C8A96E;
-  --sand-lt:#E8CC99;
-  --khaki:  #8B7355;
-  --rust:   #C44B2B;
-  --rust-lt:#E05E3A;
-  --bg:     #0D0B08;
-  --bg2:    #141109;
-  --panel:  #1A1710;
-  --panel2: #221E14;
-  --border: rgba(200,169,110,0.15);
-  --text:   #EDE4D0;
-  --dim:    #8A7D66;
-  --muted:  #3D3626;
-  --green:  #4CAF50;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden;}
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap');
 
-/* ── NAV ── */
-nav{
-  position:sticky;top:0;z-index:200;
-  background:rgba(13,11,8,0.97);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 40px;height:60px;
-}
-.logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.08em;color:var(--sand);text-decoration:none;}
-.logo sup{font-size:0.55rem;color:var(--rust);letter-spacing:0.15em;vertical-align:super;}
-.nav-links{display:flex;gap:28px;align-items:center;}
-.nav-links a{color:var(--dim);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:0.9rem;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s;}
-.nav-links a:hover{color:var(--sand);}
-.nav-btn{background:var(--rust);color:#fff !important;padding:7px 20px;font-family:'Barlow Condensed',sans-serif;font-weight:700 !important;font-size:0.85rem;letter-spacing:0.1em;border:none;cursor:pointer;transition:background 0.2s !important;}
-.nav-btn:hover{background:var(--rust-lt) !important;}
+  :root {
+    --bg: #0a0b0d;
+    --surface: #111318;
+    --card: #161a21;
+    --border: #232830;
+    --gold: #c8a84b;
+    --gold-light: #e4c06e;
+    --orange: #e8622a;
+    --green: #3db87a;
+    --red: #e03b3b;
+    --blue: #3a7bd5;
+    --text: #d4d8e0;
+    --muted: #6b7280;
+    --white: #f0f2f5;
+  }
 
-/* ── HERO ── */
-.hero{
-  position:relative;min-height:88vh;
-  display:flex;align-items:center;justify-content:center;
-  text-align:center;overflow:hidden;padding:80px 36px;
-  background:
-    radial-gradient(ellipse 70% 60% at 50% 100%,rgba(196,75,43,0.12) 0%,transparent 65%),
-    radial-gradient(ellipse 50% 40% at 20% 30%,rgba(200,169,110,0.06) 0%,transparent 60%),
-    var(--bg);
-}
-/* Camo pattern overlay */
-.hero::before{
-  content:'';position:absolute;inset:0;pointer-events:none;opacity:0.025;
-  background-image:
-    polygon(0 0,30px 0,30px 30px,0 30px),
-    polygon(15px 15px,45px 15px,45px 45px,15px 45px);
-  background:
-    repeating-conic-gradient(#8B7355 0% 25%,transparent 0% 50%) 0 0/40px 40px,
-    repeating-conic-gradient(#8B7355 0% 25%,transparent 0% 50%) 20px 20px/40px 40px;
-}
-.hero-inner{position:relative;z-index:1;max-width:780px;}
-.hero-eyebrow{
-  display:inline-flex;align-items:center;gap:10px;
-  border:1px solid rgba(200,169,110,0.3);
-  color:var(--sand);padding:5px 18px;
-  font-family:'Barlow Condensed',sans-serif;font-weight:600;
-  font-size:0.78rem;letter-spacing:0.16em;text-transform:uppercase;
-  margin-bottom:28px;
-}
-.hero-eyebrow::before,.hero-eyebrow::after{content:'◆';font-size:0.5rem;color:var(--rust);}
-.hero h1{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(3.5rem,9vw,7rem);
-  line-height:0.95;letter-spacing:0.03em;
-  margin-bottom:24px;
-}
-.hero h1 .t1{display:block;color:var(--text);}
-.hero h1 .t2{display:block;color:var(--sand);text-shadow:0 0 60px rgba(200,169,110,0.3);}
-.hero h1 .t3{display:block;color:var(--rust);font-size:0.55em;letter-spacing:0.12em;}
-.hero-sub{color:var(--dim);font-size:1rem;max-width:460px;margin:0 auto 40px;line-height:1.7;}
-.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-.btn-primary{
-  background:var(--rust);color:#fff;
-  padding:13px 34px;border:none;cursor:pointer;
-  font-family:'Barlow Condensed',sans-serif;font-weight:700;
-  font-size:1rem;letter-spacing:0.1em;text-transform:uppercase;
-  text-decoration:none;
-  box-shadow:0 4px 24px rgba(196,75,43,0.35);
-  transition:background 0.2s,transform 0.15s,box-shadow 0.2s;
-}
-.btn-primary:hover{background:var(--rust-lt);transform:translateY(-2px);box-shadow:0 6px 32px rgba(196,75,43,0.5);}
-.btn-ghost{
-  background:transparent;color:var(--sand);
-  padding:12px 32px;border:1px solid var(--sand);cursor:pointer;
-  font-family:'Barlow Condensed',sans-serif;font-weight:700;
-  font-size:1rem;letter-spacing:0.1em;text-transform:uppercase;
-  text-decoration:none;transition:all 0.2s;
-}
-.btn-ghost:hover{background:var(--sand);color:var(--bg);}
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-/* ── AMMO COUNTER (stats) ── */
-.ammo-strip{
-  background:var(--panel2);
-  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
-  display:flex;justify-content:center;flex-wrap:wrap;
-}
-.ammo{padding:20px 48px;text-align:center;border-right:1px solid var(--border);position:relative;}
-.ammo:last-child{border-right:none;}
-.ammo-val{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--sand);line-height:1;}
-.ammo-lbl{font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-top:4px;}
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,11,13,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
 
-/* ── TICKER ── */
-.ticker-wrap{background:var(--rust);padding:8px 0;overflow:hidden;white-space:nowrap;}
-.ticker-track{display:inline-flex;gap:60px;animation:tick 25s linear infinite;}
-@keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-.tick-item{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.9);}
-.tick-item::before{content:'▶  ';}
+  .logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: 0.08em;
+    color: var(--white);
+  }
+  .logo span { color: var(--gold); }
 
-/* ── SECTION ── */
-.sec{padding:72px 40px;}
-.sec-inner{max-width:1200px;margin:0 auto;}
-.sec-head{margin-bottom:44px;}
-.ew{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--rust-lt);margin-bottom:8px;}
-.sec-head h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,2.8rem);letter-spacing:0.05em;color:var(--text);}
-.sec-head h2 em{color:var(--sand);font-style:normal;}
-.sec-head p{color:var(--dim);margin-top:8px;max-width:480px;font-size:0.92rem;}
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
 
-/* ── FILTER ── */
-.filter-bar{background:var(--panel);padding:20px 40px;border-bottom:1px solid var(--border);}
-.filter-inner{max-width:1200px;margin:0 auto;}
-.frow{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;}
-.ff{flex:1;min-width:155px;}
-.ff label{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;}
-.ff input,.ff select{
-  width:100%;background:var(--panel2);
-  border:1px solid var(--border);color:var(--text);
-  padding:9px 12px;font-family:'Barlow',sans-serif;font-size:0.88rem;
-  outline:none;transition:border-color 0.2s;
-}
-.ff input:focus,.ff select:focus{border-color:var(--sand);}
-.ff select option{background:var(--panel2);}
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .btn-login {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.45rem 1.1rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    border-radius: 2px;
+  }
+  .btn-login:hover { border-color: var(--gold); color: var(--gold); }
 
-/* ── CARDS ── */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:20px;}
-.card{background:var(--panel);border:1px solid var(--border);position:relative;overflow:hidden;transition:border-color 0.2s,transform 0.2s;cursor:pointer;}
-.card:hover{border-color:rgba(200,169,110,0.45);transform:translateY(-3px);}
-.card-img{
-  height:115px;display:flex;align-items:center;justify-content:center;
-  font-size:3rem;position:relative;overflow:hidden;
-}
-.ci-conq{background:linear-gradient(135deg,#1a0f00,#3d2400);}
-.ci-ace{background:linear-gradient(135deg,#0d1400,#1e2e00);}
-.ci-plat{background:linear-gradient(135deg,#0a1220,#152040);}
-.ci-dia{background:linear-gradient(135deg,#140a20,#2a1040);}
-.ci-gold{background:linear-gradient(135deg,#1a1400,#332800);}
-.ci-silv{background:linear-gradient(135deg,#121212,#252525);}
+  .btn-primary {
+    background: var(--gold);
+    border: none;
+    color: #0a0b0d;
+    padding: 0.5rem 1.3rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-light); }
 
-.tier-tag{
-  position:absolute;bottom:8px;left:10px;
-  font-family:'Barlow Condensed',sans-serif;font-weight:700;
-  font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;
-  padding:2px 10px;
-}
-.tt-conq{background:rgba(196,75,43,0.25);color:var(--rust-lt);border:1px solid rgba(196,75,43,0.4);}
-.tt-ace{background:rgba(200,169,110,0.15);color:var(--sand);border:1px solid rgba(200,169,110,0.3);}
-.tt-plat{background:rgba(100,160,255,0.12);color:#7AAEFF;border:1px solid rgba(100,160,255,0.3);}
-.tt-dia{background:rgba(180,100,255,0.12);color:#C47AFF;border:1px solid rgba(180,100,255,0.3);}
-.tt-gold{background:rgba(255,200,50,0.12);color:#FFD032;border:1px solid rgba(255,200,50,0.3);}
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
 
-.badge-hot,.badge-new,.badge-feat{
-  position:absolute;top:8px;right:8px;
-  font-family:'Barlow Condensed',sans-serif;font-weight:700;
-  font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;padding:2px 8px;
-}
-.badge-hot{background:var(--rust);color:#fff;}
-.badge-new{background:var(--green);color:#fff;}
-.badge-feat{background:var(--sand);color:var(--bg);}
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 70% 50%, rgba(200,168,75,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(232,98,42,0.06) 0%, transparent 60%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.015) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.015) 40px);
+  }
 
-.card-body{padding:16px 18px;}
-.card-name{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.06em;color:var(--text);margin-bottom:12px;}
-.card-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
-.cs{font-size:0.75rem;color:var(--dim);}
-.cs span{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.92rem;color:var(--text);margin-top:1px;}
-.cs span.hi{color:var(--sand);}
-.card-foot{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid rgba(200,169,110,0.08);}
-.price{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--rust-lt);}
-.price-note{font-size:0.68rem;color:var(--muted);margin-top:1px;}
-.btn-card{background:var(--sand);color:var(--bg);border:none;padding:8px 18px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;}
-.btn-card:hover{background:var(--sand-lt);}
+  .hero-content {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+    width: 100%;
+  }
 
-/* ── SELL ── */
-.sell-sec{background:var(--panel);border-top:1px solid var(--border);}
-.sell-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
-.sell-form{background:var(--bg2);border:1px solid var(--border);padding:36px;position:relative;}
-.sell-form::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--rust),var(--sand));}
-.sell-form h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.06em;color:var(--text);margin-bottom:24px;}
-.fduo{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.fg{margin-bottom:16px;}
-.fg label{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;}
-.fg input,.fg select,.fg textarea{width:100%;background:var(--panel);border:1px solid var(--border);color:var(--text);padding:10px 14px;font-family:'Barlow',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.2s;resize:vertical;}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--sand);}
-.fg select option{background:var(--panel);}
-.btn-submit{width:100%;background:var(--rust);color:#fff;border:none;padding:14px;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;cursor:pointer;margin-top:6px;box-shadow:0 4px 20px rgba(196,75,43,0.3);transition:background 0.2s,transform 0.15s;}
-.btn-submit:hover{background:var(--rust-lt);transform:translateY(-1px);}
+  .hero-eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--orange);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 1px;
+    background: var(--orange);
+  }
 
-.sell-info .ew{margin-bottom:8px;}
-.sell-info h3{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.05em;color:var(--text);line-height:1.1;margin-bottom:16px;}
-.sell-info h3 span{color:var(--rust-lt);}
-.sell-info p{color:var(--dim);margin-bottom:30px;font-size:0.92rem;line-height:1.75;}
-.perks{display:flex;flex-direction:column;gap:16px;}
-.perk{display:flex;gap:14px;align-items:flex-start;}
-.perk-ico{width:40px;height:40px;flex-shrink:0;background:rgba(200,169,110,0.08);border:1px solid rgba(200,169,110,0.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
-.perk-txt strong{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--text);font-size:0.95rem;margin-bottom:2px;}
-.perk-txt span{color:var(--dim);font-size:0.83rem;}
+  .hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--gold);
+    display: block;
+  }
 
-/* ── HOW ── */
-.how-sec{background:var(--bg2);border-top:1px solid var(--border);}
-.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);}
-.how-card{background:var(--panel);padding:30px 24px;text-align:center;}
-.how-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:rgba(200,169,110,0.08);line-height:1;margin-bottom:-8px;}
-.how-ico{font-size:2rem;margin-bottom:12px;}
-.how-card h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;color:var(--sand);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.07em;}
-.how-card p{color:var(--dim);font-size:0.83rem;}
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 500px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
 
-/* ── TRUST ── */
-.trust{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;padding:28px 40px;background:var(--panel2);border-top:1px solid var(--border);}
-.tpill{display:flex;align-items:center;gap:9px;background:var(--panel);border:1px solid var(--border);padding:8px 18px;}
-.tpill span:first-child{font-size:1rem;}
-.tpill span:last-child{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:0.05em;color:var(--dim);}
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 2.5rem;
+  }
+  .stat-item { }
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.1rem;
+  }
 
-/* ── MODAL ── */
-.overlay{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.82);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;}
-.overlay.open{display:flex;}
-.modal{background:var(--panel2);border:1px solid rgba(200,169,110,0.3);max-width:500px;width:100%;padding:36px;position:relative;}
-.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--sand),var(--rust));}
-.modal-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--dim);font-size:1.3rem;cursor:pointer;}
-.modal h3{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.06em;color:var(--text);margin-bottom:6px;}
-.modal p.sub{color:var(--dim);font-size:0.83rem;margin-bottom:22px;}
-.m-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;}
-.ms{background:var(--panel);padding:12px;text-align:center;}
-.ms .ml{font-size:0.65rem;color:var(--dim);font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;}
-.ms .mv{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--sand);margin-top:3px;}
-.m-foot{display:flex;align-items:center;justify-content:space-between;padding-top:18px;border-top:1px solid rgba(200,169,110,0.1);}
-.m-price{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--rust-lt);}
-.m-sub{font-size:0.7rem;color:var(--dim);margin-top:2px;}
-.btn-confirm{background:var(--rust);color:#fff;border:none;padding:12px 26px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;letter-spacing:0.08em;text-transform:uppercase;box-shadow:0 0 18px rgba(196,75,43,0.4);transition:background 0.2s;}
-.btn-confirm:hover{background:var(--rust-lt);}
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+  }
+  .cta-main {
+    background: var(--gold);
+    border: none;
+    color: #0a0b0d;
+    padding: 0.85rem 2.2rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .cta-main:hover { background: var(--gold-light); transform: translateY(-1px); }
 
-/* ── TOAST ── */
-.toast{position:fixed;bottom:28px;right:28px;z-index:9999;background:var(--green);color:#fff;padding:12px 24px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.05em;transform:translateY(80px);opacity:0;transition:transform 0.3s,opacity 0.3s;border-left:3px solid rgba(255,255,255,0.4);}
-.toast.show{transform:translateY(0);opacity:1;}
+  .cta-sec {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.85rem 2rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: border-color 0.2s;
+  }
+  .cta-sec:hover { border-color: var(--gold); color: var(--gold); }
 
-/* ── FOOTER ── */
-footer{background:#080604;border-top:1px solid var(--border);padding:44px 40px 28px;}
-.foot-inner{max-width:1200px;margin:0 auto;}
-.foot-top{display:flex;gap:52px;flex-wrap:wrap;margin-bottom:36px;}
-.foot-brand{flex:2;min-width:220px;}
-.foot-brand .logo{font-size:1.4rem;display:inline-block;margin-bottom:12px;}
-.foot-brand p{color:var(--dim);font-size:0.83rem;max-width:280px;line-height:1.7;}
-.foot-col{flex:1;min-width:140px;}
-.foot-col h5{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.7rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--dim);margin-bottom:14px;}
-.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
-.foot-col ul li a{color:var(--muted);text-decoration:none;font-size:0.83rem;transition:color 0.2s;}
-.foot-col ul li a:hover{color:var(--sand);}
-.foot-bottom{border-top:1px solid rgba(200,169,110,0.06);padding-top:20px;text-align:center;color:var(--muted);font-size:0.75rem;}
+  /* TRUST BAR */
+  .trust-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+  .trust-icon { color: var(--green); font-size: 1rem; }
 
-/* ── RESPONSIVE ── */
-@media(max-width:900px){.how-grid{grid-template-columns:1fr 1fr;}.sell-grid{grid-template-columns:1fr;}.sell-info{order:-1;}}
-@media(max-width:680px){nav{padding:0 18px;}.nav-links a:not(.nav-btn){display:none;}.hero{padding:60px 18px;min-height:auto;}.sec{padding:50px 18px;}.ammo{padding:16px 24px;}.fduo{grid-template-columns:1fr;}.how-grid{grid-template-columns:1fr;}}
+  /* FILTERS */
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .section-count {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .filters {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .filter-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.4rem 1rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(200,168,75,0.07);
+  }
+
+  /* ACCOUNT CARDS */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .account-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+    position: relative;
+  }
+  .account-card:hover {
+    border-color: rgba(200,168,75,0.4);
+    transform: translateY(-3px);
+  }
+
+  .card-badge {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.8rem;
+    padding: 0.25rem 0.6rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    z-index: 2;
+  }
+  .badge-hot { background: rgba(232,98,42,0.15); color: var(--orange); border: 1px solid rgba(232,98,42,0.3); }
+  .badge-new { background: rgba(61,184,122,0.12); color: var(--green); border: 1px solid rgba(61,184,122,0.25); }
+  .badge-rare { background: rgba(58,123,213,0.12); color: var(--blue); border: 1px solid rgba(58,123,213,0.25); }
+  .badge-featured { background: rgba(200,168,75,0.12); color: var(--gold); border: 1px solid rgba(200,168,75,0.3); }
+
+  .card-thumb {
+    height: 160px;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .rank-display {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 3rem;
+    color: rgba(255,255,255,0.08);
+    letter-spacing: -0.03em;
+    position: absolute;
+    right: 1rem;
+    bottom: 0.5rem;
+  }
+
+  .rank-icon {
+    font-size: 4rem;
+    filter: drop-shadow(0 0 20px rgba(200,168,75,0.4));
+    z-index: 1;
+  }
+
+  .card-body {
+    padding: 1.1rem;
+  }
+
+  .card-rank {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .card-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .card-stat {
+    background: var(--surface);
+    padding: 0.45rem 0.6rem;
+    border-radius: 2px;
+  }
+  .card-stat-label {
+    font-size: 0.62rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.15rem;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .card-stat-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--border);
+  }
+  .card-price {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: var(--gold);
+    letter-spacing: -0.02em;
+  }
+  .card-price-old {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration: line-through;
+    margin-left: 0.4rem;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+  }
+
+  .btn-buy {
+    background: var(--orange);
+    border: none;
+    color: #fff;
+    padding: 0.5rem 1.2rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .btn-buy:hover { background: #f07040; transform: scale(1.03); }
+
+  /* FEATURED SECTION */
+  .featured-banner {
+    background: var(--card);
+    border: 1px solid rgba(200,168,75,0.25);
+    border-radius: 4px;
+    padding: 2.5rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    margin: 2rem auto;
+    max-width: 1200px;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (max-width: 768px) {
+    .featured-banner { grid-template-columns: 1fr; margin: 1rem; }
+  }
+  .featured-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 80% at 80% 50%, rgba(200,168,75,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .featured-eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .featured-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 2.2rem;
+    color: var(--white);
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .featured-title em { color: var(--gold); font-style: normal; }
+  .featured-desc {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .featured-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .feat-stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 1rem;
+    background: var(--surface);
+    border-radius: 2px;
+    border-left: 3px solid var(--gold);
+  }
+  .feat-stat-key {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .feat-stat-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  /* HOW IT WORKS */
+  .how-section {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+  .how-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .how-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 2.2rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .how-sub {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 3rem;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  @media (max-width: 600px) {
+    .steps { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hero-stats { gap: 1.5rem; }
+  }
+
+  .step {
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    text-align: left;
+    background: var(--card);
+  }
+  .step-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 2.5rem;
+    color: rgba(200,168,75,0.2);
+    line-height: 1;
+    margin-bottom: 0.8rem;
+  }
+  .step-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+  }
+  .step-desc {
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: var(--card);
+    border: 1px solid rgba(200,168,75,0.3);
+    border-radius: 6px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(20px);
+    transition: transform 0.2s;
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+
+  .modal-header {
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .modal-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .modal-close {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 1.3rem;
+    line-height: 1;
+    padding: 0.2rem;
+    transition: color 0.15s;
+  }
+  .modal-close:hover { color: var(--white); }
+
+  .modal-body { padding: 1.5rem; }
+
+  .modal-price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: var(--surface);
+    border-radius: 3px;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+  }
+  .modal-price-label { color: var(--muted); font-size: 0.85rem; }
+  .modal-price-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 2rem;
+    color: var(--gold);
+  }
+
+  .form-group { margin-bottom: 1.1rem; }
+  .form-label {
+    display: block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.45rem;
+  }
+  .form-input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.7rem 0.9rem;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.9rem;
+    border-radius: 2px;
+    transition: border-color 0.15s;
+    outline: none;
+  }
+  .form-input:focus { border-color: var(--gold); }
+  .form-input::placeholder { color: var(--muted); }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+
+  .checkout-btn {
+    width: 100%;
+    background: var(--gold);
+    border: none;
+    color: #0a0b0d;
+    padding: 1rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-top: 1.5rem;
+    transition: background 0.2s;
+  }
+  .checkout-btn:hover { background: var(--gold-light); }
+
+  .security-note {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 0.8rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .security-note span { color: var(--green); }
+
+  /* FOOTER */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  .footer-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--white);
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+  }
+  .footer-logo span { color: var(--gold); }
+  .footer-disclaimer {
+    max-width: 600px;
+    margin: 0.8rem auto 0;
+    line-height: 1.6;
+    font-size: 0.72rem;
+  }
+
+  /* SUCCESS */
+  .success-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .success-overlay.open { opacity: 1; pointer-events: all; }
+  .success-box {
+    background: var(--card);
+    border: 1px solid var(--green);
+    border-radius: 6px;
+    padding: 3rem 2.5rem;
+    text-align: center;
+    max-width: 400px;
+    transform: scale(0.9);
+    transition: transform 0.3s;
+  }
+  .success-overlay.open .success-box { transform: scale(1); }
+  .success-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+  .success-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 0.5rem;
+  }
+  .success-desc { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.6; }
+  .success-close {
+    background: var(--green);
+    border: none;
+    color: #fff;
+    padding: 0.7rem 2rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+  }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <a class="logo" href="#">DROP<span style="color:var(--rust)">ZONE</span><sup>MARKET</sup></a>
-  <div class="nav-links">
-    <a href="#accounts">Accounts</a>
-    <a href="#sell">Sell</a>
-    <a href="#how">How It Works</a>
-    <a href="#accounts" class="nav-btn">Buy Now</a>
+  <div class="logo">BATTLE<span>GROUND</span>MARKET</div>
+  <ul class="nav-links">
+    <li><a href="#">Browse</a></li>
+    <li><a href="#">Ranked Accounts</a></li>
+    <li><a href="#">Skins</a></li>
+    <li><a href="#">Support</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn-login">Sign In</button>
+    <button class="btn-primary">Register</button>
   </div>
 </nav>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">PUBG Global Account Marketplace</div>
-    <h1>
-      <span class="t1">WINNER</span>
-      <span class="t2">WINNER</span>
-      <span class="t3">Account Market Open</span>
-    </h1>
-    <p class="hero-sub">Buy and sell premium PUBG accounts — Conqueror to Bronze. Verified stats, instant transfer, full ownership.</p>
-    <div class="hero-btns">
-      <a href="#accounts" class="btn-primary">Browse Accounts</a>
-      <a href="#sell" class="btn-ghost">Sell My Account</a>
-    </div>
-  </div>
-</div>
-
-<!-- TICKER -->
-<div class="ticker-wrap">
-  <div class="ticker-track" id="ticker"></div>
-</div>
-
-<!-- STATS -->
-<div class="ammo-strip">
-  <div class="ammo"><div class="ammo-val">7,840+</div><div class="ammo-lbl">Accounts Sold</div></div>
-  <div class="ammo"><div class="ammo-val">3,120</div><div class="ammo-lbl">Active Listings</div></div>
-  <div class="ammo"><div class="ammo-val">99.3%</div><div class="ammo-lbl">Safe Transfers</div></div>
-  <div class="ammo"><div class="ammo-val">4.8★</div><div class="ammo-lbl">Avg Rating</div></div>
-</div>
-
-<!-- FILTER -->
-<div class="filter-bar" id="accounts">
-  <div class="filter-inner">
-    <div class="frow">
-      <div class="ff"><label>Search</label><input type="text" id="srch" placeholder="e.g. Conqueror, AWM skin…" oninput="renderCards()"></div>
-      <div class="ff"><label>Tier</label>
-        <select id="fTier" onchange="renderCards()">
-          <option value="">All Tiers</option>
-          <option>Conqueror</option><option>Ace</option><option>Platinum</option><option>Diamond</option><option>Gold</option>
-        </select>
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Verified Accounts · Instant Delivery</div>
+    <h1>DOMINATE<em>THE ZONE</em></h1>
+    <p class="hero-desc">Premium PUBG accounts — ranked, loaded, and ready to drop. Every account verified, every purchase secured.</p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">4,800+</div>
+        <div class="stat-label">Accounts sold</div>
       </div>
-      <div class="ff"><label>Max Price ($)</label>
-        <select id="fPrice" onchange="renderCards()">
-          <option value="">Any</option>
-          <option value="50">Under $50</option><option value="100">Under $100</option>
-          <option value="250">Under $250</option><option value="500">Under $500</option>
-        </select>
+      <div class="stat-item">
+        <div class="stat-num">98.7%</div>
+        <div class="stat-label">Satisfaction rate</div>
       </div>
-      <div class="ff"><label>Sort</label>
-        <select id="fSort" onchange="renderCards()">
-          <option value="pa">Price: Low → High</option>
-          <option value="pd">Price: High → Low</option>
-          <option value="td">Tier: Best First</option>
-        </select>
+      <div class="stat-item">
+        <div class="stat-num">&lt;5 min</div>
+        <div class="stat-label">Avg delivery</div>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ACCOUNTS -->
-<section class="sec">
-  <div class="sec-inner">
-    <div class="sec-head">
-      <div class="ew">Verified Listings</div>
-      <h2>Featured <em>PUBG Accounts</em></h2>
-      <p>Every account manually verified before listing. Stats are accurate and guaranteed.</p>
+    <div class="hero-ctas">
+      <button class="cta-main" onclick="document.getElementById('listings').scrollIntoView({behavior:'smooth'})">Browse Accounts</button>
+      <button class="cta-sec">How it works</button>
     </div>
-    <div class="grid" id="cardsGrid"></div>
   </div>
 </section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><span class="trust-icon">✓</span> 100% Hand-verified accounts</div>
+  <div class="trust-item"><span class="trust-icon">✓</span> Secure encrypted payments</div>
+  <div class="trust-item"><span class="trust-icon">✓</span> Instant credential delivery</div>
+  <div class="trust-item"><span class="trust-icon">✓</span> 48-hour warranty</div>
+</div>
+
+<!-- FEATURED ACCOUNT -->
+<div class="featured-banner" id="featured">
+  <div>
+    <div class="featured-eyebrow">⭐ This Week's Top Pick</div>
+    <div class="featured-title">ACE TIER<em>BEAST</em></div>
+    <p class="featured-desc">Season 15 grinder. Top 500 solo ranking, rare legacy skins, level 500 BP. This account is the real deal — 2,400+ hours of playtime.</p>
+    <button class="cta-main" onclick="openModal({name:'Ace Beast Account', price:'$249', rank:'Ace', kd:'6.2', wins:'890', hours:'2,400+', skins:'47 Rare', season:'S15'})">Buy Now — $249</button>
+  </div>
+  <div class="featured-stats">
+    <div class="feat-stat-row"><span class="feat-stat-key">Rank</span><span class="feat-stat-val">ACE — 5,100 RP</span></div>
+    <div class="feat-stat-row"><span class="feat-stat-key">K/D Ratio</span><span class="feat-stat-val">6.2</span></div>
+    <div class="feat-stat-row"><span class="feat-stat-key">Total Wins</span><span class="feat-stat-val">890 Chicken Dinners</span></div>
+    <div class="feat-stat-row"><span class="feat-stat-key">Rare Skins</span><span class="feat-stat-val">47 items</span></div>
+    <div class="feat-stat-row"><span class="feat-stat-key">Level</span><span class="feat-stat-val">500 (Max BP)</span></div>
+  </div>
+</div>
+
+<!-- LISTINGS -->
+<div class="section" id="listings">
+  <div class="section-header">
+    <div class="section-title">All Accounts</div>
+    <div class="section-count">SHOWING 8 OF 124</div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="setFilter(this)">All Ranks</button>
+    <button class="filter-btn" onclick="setFilter(this)">Bronze–Gold</button>
+    <button class="filter-btn" onclick="setFilter(this)">Platinum</button>
+    <button class="filter-btn" onclick="setFilter(this)">Diamond</button>
+    <button class="filter-btn" onclick="setFilter(this)">Crown</button>
+    <button class="filter-btn" onclick="setFilter(this)">Ace</button>
+    <button class="filter-btn" onclick="setFilter(this)">Conqueror</button>
+    <button class="filter-btn" onclick="setFilter(this)">Rare Skins</button>
+  </div>
+
+  <div class="cards-grid" id="cardsGrid"></div>
+</div>
 
 <!-- HOW IT WORKS -->
-<section class="sec how-sec" id="how" style="padding-top:60px;padding-bottom:60px;">
-  <div class="sec-inner">
-    <div class="sec-head"><div class="ew">Simple Process</div><h2>How It <em>Works</em></h2></div>
-    <div class="how-grid">
-      <div class="how-card"><div class="how-num">01</div><div class="how-ico">🎯</div><h4>Pick an Account</h4><p>Filter by tier, K/D, skins, or price. Full stats shown on every listing.</p></div>
-      <div class="how-card"><div class="how-num">02</div><div class="how-ico">🔒</div><h4>Secure Payment</h4><p>Funds held in escrow until you confirm the account matches the listing.</p></div>
-      <div class="how-card"><div class="how-num">03</div><div class="how-ico">📦</div><h4>Get Credentials</h4><p>Login details delivered instantly. Our team assists the full transfer.</p></div>
-      <div class="how-card"><div class="how-num">04</div><div class="how-ico">🏆</div><h4>Play & Win</h4><p>Change email and password. The account is 100% yours to keep.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- SELL -->
-<section class="sec sell-sec" id="sell">
-  <div class="sec-inner">
-    <div class="sell-grid">
-      <div class="sell-info">
-        <div class="ew">Cash Out Your Rank</div>
-        <h3>Sell Your<br><span>PUBG Account</span></h3>
-        <p>List your account in 3 minutes. We verify, promote, and connect you with thousands of ready buyers worldwide.</p>
-        <div class="perks">
-          <div class="perk"><div class="perk-ico">🛡️</div><div class="perk-txt"><strong>Seller Escrow Protection</strong><span>Money only releases after the buyer confirms a successful transfer.</span></div></div>
-          <div class="perk"><div class="perk-ico">⚡</div><div class="perk-txt"><strong>Fast Payout</strong><span>Receive funds within 24h via PayPal, crypto, or bank transfer.</span></div></div>
-          <div class="perk"><div class="perk-ico">📢</div><div class="perk-txt"><strong>Free Featured Boost</strong><span>New listings are auto-featured on top for the first 48 hours.</span></div></div>
-          <div class="perk"><div class="perk-ico">🤝</div><div class="perk-txt"><strong>Agent-Assisted Transfer</strong><span>A real support agent walks you through every step of the sale.</span></div></div>
-        </div>
+<div class="how-section">
+  <div class="how-inner">
+    <div class="how-title">How It Works</div>
+    <p class="how-sub">Secure, simple, fast — every time.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-name">Browse & Select</div>
+        <p class="step-desc">Filter by rank, stats, skins, and price. Each listing shows real K/D, win rates, and skin inventory.</p>
       </div>
-      <div class="sell-form">
-        <h3>📋 Create Listing</h3>
-        <div class="fduo">
-          <div class="fg"><label>Your Name</label><input type="text" placeholder="DesertEagle99"></div>
-          <div class="fg"><label>Email / Discord</label><input type="text" placeholder="you@email.com"></div>
-        </div>
-        <div class="fduo">
-          <div class="fg"><label>Current Tier</label>
-            <select><option>Conqueror</option><option>Ace</option><option>Platinum</option><option>Diamond</option><option>Gold</option><option>Silver</option><option>Bronze</option></select>
-          </div>
-          <div class="fg"><label>Asking Price ($)</label><input type="number" placeholder="e.g. 180"></div>
-        </div>
-        <div class="fduo">
-          <div class="fg"><label>K/D Ratio</label><input type="number" step="0.1" placeholder="e.g. 4.2"></div>
-          <div class="fg"><label>Total Matches</label><input type="number" placeholder="e.g. 3200"></div>
-        </div>
-        <div class="fduo">
-          <div class="fg"><label>Outfit/Gun Skins</label><input type="number" placeholder="e.g. 24"></div>
-          <div class="fg"><label>Server Region</label>
-            <select><option>Asia</option><option>North America</option><option>Europe</option><option>South America</option><option>Middle East</option></select>
-          </div>
-        </div>
-        <div class="fg"><label>Account Highlights</label><textarea rows="3" placeholder="AWM Dragon skin, Mythic outfits, Season 20 Conqueror frame, chicken dinner stats…"></textarea></div>
-        <button class="btn-submit" onclick="submitSell()">SUBMIT LISTING →</button>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-name">Checkout Securely</div>
+        <p class="step-desc">Pay via card or crypto. Payments are encrypted end-to-end. Your data is never stored.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-name">Get Credentials</div>
+        <p class="step-desc">Credentials arrive in your email within minutes. Login, change password, and start playing.</p>
       </div>
     </div>
   </div>
-</section>
-
-<!-- TRUST -->
-<div class="trust">
-  <div class="tpill"><span>🔒</span><span>Escrow Protected</span></div>
-  <div class="tpill"><span>✅</span><span>Manually Verified</span></div>
-  <div class="tpill"><span>💳</span><span>PayPal / Crypto</span></div>
-  <div class="tpill"><span>↩️</span><span>Money-Back Guarantee</span></div>
-  <div class="tpill"><span>⚡</span><span>Instant Delivery</span></div>
-  <div class="tpill"><span>🌍</span><span>Global Marketplace</span></div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="foot-inner">
-    <div class="foot-top">
-      <div class="foot-brand">
-        <a class="logo" href="#">DROP<span style="color:var(--rust)">ZONE</span></a>
-        <p>The most trusted global marketplace for PUBG accounts. Secure, fast, verified since 2022.</p>
-      </div>
-      <div class="foot-col"><h5>Browse</h5><ul><li><a href="#">All Accounts</a></li><li><a href="#">Conqueror Tier</a></li><li><a href="#">Ace Accounts</a></li><li><a href="#">Rare Skin Bundles</a></li></ul></div>
-      <div class="foot-col"><h5>Sell</h5><ul><li><a href="#">List Account</a></li><li><a href="#">Seller Guide</a></li><li><a href="#">Payout Methods</a></li><li><a href="#">Price Estimator</a></li></ul></div>
-      <div class="foot-col"><h5>Support</h5><ul><li><a href="#">FAQ</a></li><li><a href="#">Live Chat</a></li><li><a href="#">Dispute Help</a></li><li><a href="#">Terms of Service</a></li></ul></div>
-    </div>
-    <div class="foot-bottom">© 2026 DropZone Market. Not affiliated with Krafton or PUBG Corporation. All trademarks belong to their respective owners.</div>
-  </div>
+  <div class="footer-logo">BATTLE<span>GROUND</span>MARKET</div>
+  <div>© 2025 BattlegroundMarket. All rights reserved.</div>
+  <div class="footer-disclaimer">This is an independent marketplace. Not affiliated with PUBG Corporation or Krafton Inc. All trademarks belong to their respective owners. Account trading may violate game Terms of Service — purchase at your own risk.</div>
 </footer>
 
-<!-- MODAL -->
-<div class="overlay" id="overlay">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <h3 id="m-name">Account</h3>
-    <p class="sub" id="m-sub">Verified by DropZone · Instant delivery after payment</p>
-    <div class="m-grid" id="m-stats"></div>
-    <div class="m-foot">
-      <div><div class="m-price" id="m-price">$0</div><div class="m-sub">Escrow protected · Full ownership transfer</div></div>
-      <button class="btn-confirm" onclick="confirmBuy()">CONFIRM PURCHASE</button>
+<!-- BUY MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modalTitle">Purchase Account</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-price-row">
+        <div class="modal-price-label" id="modalRankLabel">Rank · Loading</div>
+        <div class="modal-price-val" id="modalPrice">$0</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" placeholder="you@email.com" id="emailInput">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Card Number</label>
+        <input class="form-input" type="text" placeholder="4242 4242 4242 4242" maxlength="19" id="cardNum" oninput="formatCard(this)">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Expiry</label>
+          <input class="form-input" type="text" placeholder="MM / YY" maxlength="7" id="expiry" oninput="formatExpiry(this)">
+        </div>
+        <div class="form-group">
+          <label class="form-label">CVV</label>
+          <input class="form-input" type="text" placeholder="•••" maxlength="3">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cardholder Name</label>
+        <input class="form-input" type="text" placeholder="Full name on card">
+      </div>
+
+      <button class="checkout-btn" onclick="handleCheckout()">Complete Purchase</button>
+      <div class="security-note"><span>🔒</span> SSL encrypted · Your card is never stored</div>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-box">
+    <div class="success-icon">🏆</div>
+    <div class="success-title">Purchase Complete!</div>
+    <p class="success-desc">Account credentials have been sent to your email. Check your inbox (and spam folder) within the next 5 minutes.</p>
+    <button class="success-close" onclick="document.getElementById('successOverlay').classList.remove('open')">Back to Marketplace</button>
+  </div>
+</div>
 
 <script>
-const ACCOUNTS=[
-  {id:1,name:'CONQUEROR MAX',tier:'Conqueror',kd:'7.4',matches:5200,skins:32,wins:480,rp:5800,price:420,badge:'hot',emoji:'👑',ci:'ci-conq',tt:'tt-conq',ttl:'Conqueror',server:'Asia'},
-  {id:2,name:'ACE MYTHIC',tier:'Ace',kd:'5.1',matches:3800,skins:22,wins:290,rp:4600,price:210,badge:'new',emoji:'🏅',ci:'ci-ace',tt:'tt-ace',ttl:'Ace',server:'Asia'},
-  {id:3,name:'CONQUEROR AWM',tier:'Conqueror',kd:'6.8',matches:4700,skins:28,wins:410,rp:5400,price:360,badge:'feat',emoji:'🔥',ci:'ci-conq',tt:'tt-conq',ttl:'Conqueror',server:'NA',featured:true},
-  {id:4,name:'DIAMOND SNIPER',tier:'Diamond',kd:'3.8',matches:2100,skins:12,wins:160,rp:3400,price:95,badge:'new',emoji:'💎',ci:'ci-dia',tt:'tt-dia',ttl:'Diamond',server:'EU'},
-  {id:5,name:'PLATINUM BEAST',tier:'Platinum',kd:'2.9',matches:1600,skins:8,wins:90,rp:2600,price:55,badge:'',emoji:'⚡',ci:'ci-plat',tt:'tt-plat',ttl:'Platinum',server:'Asia'},
-  {id:6,name:'ACE DRAGON',tier:'Ace',kd:'4.7',matches:3300,skins:19,wins:240,rp:4200,price:175,badge:'hot',emoji:'🐉',ci:'ci-ace',tt:'tt-ace',ttl:'Ace',server:'ME'},
-  {id:7,name:'GOLD STARTER',tier:'Gold',kd:'2.1',matches:800,skins:5,wins:55,rp:1800,price:32,badge:'new',emoji:'🌟',ci:'ci-gold',tt:'tt-gold',ttl:'Gold',server:'Asia'},
-  {id:8,name:'CONQUEROR LEGACY',tier:'Conqueror',kd:'8.2',matches:6100,skins:38,wins:560,rp:6200,price:580,badge:'hot',emoji:'🎖️',ci:'ci-conq',tt:'tt-conq',ttl:'Conqueror',server:'Asia'},
+const accounts = [
+  { badge:'hot', badgeLabel:'🔥 HOT', rank:'CROWN', icon:'👑', kd:'4.8', wins:'420', hours:'1,200+', skins:'22 skins', season:'S15', price:'$149', oldPrice:'$179' },
+  { badge:'new', badgeLabel:'NEW', rank:'DIAMOND', icon:'💎', kd:'3.6', wins:'280', hours:'800+', skins:'14 skins', season:'S14', price:'$79', oldPrice:null },
+  { badge:'rare', badgeLabel:'RARE', rank:'CONQUEROR', icon:'🎖️', kd:'8.1', wins:'1,100', hours:'3,000+', skins:'61 skins', season:'S13', price:'$399', oldPrice:'$449' },
+  { badge:'featured', badgeLabel:'★ PICK', rank:'PLATINUM', icon:'🪙', kd:'2.4', wins:'140', hours:'400+', skins:'8 skins', season:'S15', price:'$39', oldPrice:null },
+  { badge:'hot', badgeLabel:'🔥 HOT', rank:'ACE', icon:'🏅', kd:'5.5', wins:'620', hours:'1,800+', skins:'33 skins', season:'S15', price:'$199', oldPrice:'$229' },
+  { badge:'new', badgeLabel:'NEW', rank:'GOLD', icon:'🥇', kd:'1.9', wins:'80', hours:'250+', skins:'5 skins', season:'S14', price:'$19', oldPrice:null },
+  { badge:'rare', badgeLabel:'RARE', rank:'ACE MASTER', icon:'🏆', kd:'7.2', wins:'940', hours:'2,600+', skins:'52 skins', season:'S12', price:'$279', oldPrice:'$319' },
+  { badge:'new', badgeLabel:'NEW', rank:'CROWN', icon:'👑', kd:'4.1', wins:'360', hours:'1,000+', skins:'18 skins', season:'S15', price:'$129', oldPrice:null },
 ];
 
-const TIER_ORDER=['Conqueror','Ace','Diamond','Platinum','Gold','Silver','Bronze'];
+const rankGradients = {
+  'GOLD': 'linear-gradient(135deg, #1c1a10 0%, #2a2410 100%)',
+  'PLATINUM': 'linear-gradient(135deg, #101820 0%, #182030 100%)',
+  'DIAMOND': 'linear-gradient(135deg, #0e1822 0%, #16283a 100%)',
+  'CROWN': 'linear-gradient(135deg, #1a1222 0%, #2a1a38 100%)',
+  'ACE': 'linear-gradient(135deg, #1a1008 0%, #2a1a0e 100%)',
+  'ACE MASTER': 'linear-gradient(135deg, #1a0e08 0%, #2e1608 100%)',
+  'CONQUEROR': 'linear-gradient(135deg, #120a08 0%, #221008 100%)',
+};
 
-function renderCards(){
-  const q=document.getElementById('srch').value.toLowerCase();
-  const tier=document.getElementById('fTier').value;
-  const maxP=parseInt(document.getElementById('fPrice').value)||Infinity;
-  const sort=document.getElementById('fSort').value;
-  let data=ACCOUNTS.filter(a=>{
-    return (!q||a.name.toLowerCase().includes(q)||a.tier.toLowerCase().includes(q))
-      &&(!tier||a.tier===tier)&&(a.price<=maxP);
-  });
-  if(sort==='pa') data.sort((a,b)=>a.price-b.price);
-  else if(sort==='pd') data.sort((a,b)=>b.price-a.price);
-  else if(sort==='td') data.sort((a,b)=>TIER_ORDER.indexOf(a.tier)-TIER_ORDER.indexOf(b.tier));
-  const grid=document.getElementById('cardsGrid');
-  if(!data.length){grid.innerHTML='<p style="color:var(--dim);grid-column:1/-1;text-align:center;padding:48px;font-family:Barlow Condensed,sans-serif;letter-spacing:.1em;text-transform:uppercase;">No accounts match your filters</p>';return;}
-  grid.innerHTML='';
-  data.forEach(a=>{
-    const el=document.createElement('div');
-    el.className='card';
-    el.innerHTML=`
-      <div class="card-img ${a.ci}">${a.emoji}
-        <div class="tier-tag ${a.tt}">${a.ttl}</div>
-        ${a.badge==='hot'?'<div class="badge-hot">🔥 Hot</div>':''}
-        ${a.badge==='new'?'<div class="badge-new">New</div>':''}
-        ${a.badge==='feat'?'<div class="badge-feat">Featured</div>':''}
+function renderCards() {
+  const grid = document.getElementById('cardsGrid');
+  grid.innerHTML = accounts.map((a, i) => `
+    <div class="account-card" onclick="openModal(a)" id="card-${i}">
+      <div class="card-badge badge-${a.badge}">${a.badgeLabel}</div>
+      <div class="card-thumb" style="background:${rankGradients[a.rank] || rankGradients['ACE']}">
+        <div class="rank-icon">${a.icon}</div>
+        <div class="rank-display">${a.rank.split(' ')[0]}</div>
       </div>
       <div class="card-body">
-        <div class="card-name">${a.name}</div>
+        <div class="card-rank">${a.rank} — ${a.season}</div>
         <div class="card-stats">
-          <div class="cs">K/D Ratio<span class="hi">${a.kd}</span></div>
-          <div class="cs">Total Wins<span>${a.wins}</span></div>
-          <div class="cs">Matches<span>${a.matches.toLocaleString()}</span></div>
-          <div class="cs">Skins<span>${a.skins}</span></div>
+          <div class="card-stat">
+            <div class="card-stat-label">K/D Ratio</div>
+            <div class="card-stat-value">${a.kd}</div>
+          </div>
+          <div class="card-stat">
+            <div class="card-stat-label">Wins</div>
+            <div class="card-stat-value">${a.wins}</div>
+          </div>
+          <div class="card-stat">
+            <div class="card-stat-label">Hours</div>
+            <div class="card-stat-value">${a.hours}</div>
+          </div>
+          <div class="card-stat">
+            <div class="card-stat-label">Skins</div>
+            <div class="card-stat-value">${a.skins}</div>
+          </div>
         </div>
-        <div class="card-foot">
-          <div><div class="price">$${a.price}</div><div class="price-note">Instant delivery</div></div>
-          <button class="btn-card" onclick="openModal(${a.id})">Buy Now</button>
+        <div class="card-footer">
+          <div>
+            <span class="card-price">${a.price}</span>
+            ${a.oldPrice ? `<span class="card-price-old">${a.oldPrice}</span>` : ''}
+          </div>
+          <button class="btn-buy" onclick="event.stopPropagation(); openModalData(${i})">Buy Now</button>
         </div>
-      </div>`;
-    grid.appendChild(el);
-  });
+      </div>
+    </div>
+  `).join('');
 }
 
-function openModal(id){
-  const a=ACCOUNTS.find(x=>x.id===id);
-  if(!a)return;
-  document.getElementById('m-name').textContent=a.name;
-  document.getElementById('m-sub').textContent=`${a.tier} · ${a.server} Server · Verified by DropZone`;
-  document.getElementById('m-price').textContent='$'+a.price;
-  document.getElementById('m-stats').innerHTML=`
-    <div class="ms"><div class="ml">K/D</div><div class="mv">${a.kd}</div></div>
-    <div class="ms"><div class="ml">Wins</div><div class="mv">${a.wins}</div></div>
-    <div class="ms"><div class="ml">Matches</div><div class="mv">${a.matches.toLocaleString()}</div></div>
-    <div class="ms"><div class="ml">Skins</div><div class="mv">${a.skins}</div></div>
-    <div class="ms"><div class="ml">Season RP</div><div class="mv">${a.rp.toLocaleString()}</div></div>
-    <div class="ms"><div class="ml">Server</div><div class="mv">${a.server}</div></div>
-  `;
-  document.getElementById('overlay').classList.add('open');
-}
-function closeModal(){document.getElementById('overlay').classList.remove('open');}
-document.getElementById('overlay').addEventListener('click',e=>{if(e.target===document.getElementById('overlay'))closeModal();});
-function confirmBuy(){closeModal();showToast('✅ Order placed! Check your email for delivery details.');}
-function submitSell(){showToast('🎉 Listing submitted! We\'ll review and go live within 2 hours.');}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+let currentAccount = null;
 
-// Ticker
-const ticks=['Conqueror Account Sold — $420','Ace Mythic Sold in 3 min','New: Conqueror AWM $360','Diamond Sold — $95','Ace Dragon Sold — $175','New Listing: Conqueror Legacy $580','Platinum Account Sold — $55','Gold Starter Sold — $32'];
-const full=[...ticks,...ticks];
-document.getElementById('ticker').innerHTML=full.map(t=>`<div class="tick-item">${t}</div>`).join('');
+function openModalData(i) {
+  openModal(accounts[i]);
+}
+
+function openModal(a) {
+  currentAccount = a;
+  document.getElementById('modalTitle').textContent = a.rank + ' Account';
+  document.getElementById('modalRankLabel').textContent = `Rank · ${a.rank}`;
+  document.getElementById('modalPrice').textContent = a.price;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('open')
+    document.body.style.overflow = '';
+  }
+}
+
+function formatCard(el) {
+  let v = el.value.replace(/\D/g, '').substring(0, 16);
+  el.value = v.replace(/(.{4})/g, '$1 ').trim();
+}
+
+function formatExpiry(el) {
+  let v = el.value.replace(/\D/g, '').substring(0, 4);
+  if (v.length >= 3) v = v.substring(0,2) + ' / ' + v.substring(2);
+  el.value = v;
+}
+
+function handleCheckout() {
+  const email = document.getElementById('emailInput').value;
+  const card = document.getElementById('cardNum').value;
+  if (!email || !card || card.replace(/\s/g,'').length < 16) {
+    alert('Please fill in all required fields correctly.');
+    return;
+  }
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => {
+    document.getElementById('successOverlay').classList.add('open');
+  }, 300);
+}
+
+function setFilter(btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
 
 renderCards();
+// Make openModal globally accessible for onclick in cards
+window.openModal = openModal;
+window.openModalData = openModalData;
 </script>
+
 </body>
 </html>
