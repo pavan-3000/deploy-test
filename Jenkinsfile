@@ -105,9 +105,9 @@ pipeline {
                                 BRANCH_TAG=$(echo ${GIT_BRANCH:-${BRANCH_NAME:-main}} | sed 's|origin/||' | tr '/' '-' | tr '[:upper:]' '[:lower:]')
                                 FULL_IMAGE="pav30/deploy-test:$DOCKER_TAG-$BRANCH_TAG"
                                 REG_PASS_B64=$(echo -n "$REG_PASS" | base64 -w0)
-                                ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no -o ConnectTimeout=15 ubuntu@34.229.151.171 "echo $REG_PASS_B64 | base64 -d | docker login -u $REG_USER --password-stdin"
-                                ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no -o ConnectTimeout=30 ubuntu@34.229.151.171 "docker pull $FULL_IMAGE && (docker stop deploy-test 2>/dev/null; docker rm deploy-test 2>/dev/null; docker run -d --name deploy-test --restart unless-stopped -p 800:80 $FULL_IMAGE) && echo Deploy OK"
-                                echo "Deployed: $FULL_IMAGE → http://34.229.151.171:800"
+                                ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no -o ConnectTimeout=15 ubuntu@52.90.250.133 "echo $REG_PASS_B64 | base64 -d | docker login -u $REG_USER --password-stdin"
+                                ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no -o ConnectTimeout=30 ubuntu@52.90.250.133 "docker pull $FULL_IMAGE && (docker stop deploy-test 2>/dev/null; docker rm deploy-test 2>/dev/null; docker run -d --name deploy-test --restart unless-stopped -p 800:80 $FULL_IMAGE) && echo Deploy OK"
+                                echo "Deployed: $FULL_IMAGE → http://52.90.250.133:800"
                             '''
                         }
                     }
